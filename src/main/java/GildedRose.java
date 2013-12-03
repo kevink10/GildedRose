@@ -102,4 +102,17 @@ public class GildedRose {
         }
     }
 
+
+
+	public static void setItem(Item newItem) {
+		items = new ArrayList<Item>();
+		items.add(newItem);
+	}
+
+
+
+	public static Item getFirstItem() {
+		return items.get(0);
+	}
+
 }
