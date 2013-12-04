@@ -1,29 +1,34 @@
 Feature: Gilded Rose Existing Functionality 
-
-Scenario: At the end of a day, an item will decrease its sell in by one 
-	Given +5 Dexterity Vest with sell in of 5 
-	When the day ends 
-	Then the sell in will be 4 
 	
-Scenario: At the end of a day, an item will decrease its quality by one 
-	Given +5 Dexterity Vest with sell in of 6 and quality of 5 
-	When the day ends 
-	Then the quality will be 4 
+Scenario: At the end of a day, a basic item will decrease its sell in by one
+	Given a basic item
+	When the day ends
+	Then the sell in will decrease by one
 	
-Scenario: If the sell in has passed, Quality degrades twice as fast 
-	Given +5 Dexterity Vest with sell in of 0 and quality of 10 
-	When the day ends 
-	Then the quality will be 8 
+Scenario: At the end of a day, a basic item will decrease its quality by one
+	Given a basic item
+	When the day ends
+	Then the quality will decrease by 1
 	
+Scenario: A basic item whose sell in has passed, quality will decrease by two
+	Given a basic item whose sell in has passed
+	When the day ends
+	Then the quality will decrease by 2
+		
 Scenario: The quality of an item is never negative 
-	Given +5 Dexterity Vest with quality of 0 
+	Given a basic item with quality of 0 
 	When the day ends 
-	Then the quality will be 0 
+	Then the quality will remain at 0 
 	
 Scenario: Aged Brie increases in quality the older it gets 
-	Given Aged Brie with quality of 42 
+	Given Aged Brie
 	When the day ends 
-	Then the quality will be 43 
+	Then the quality will increase by 1 
+	
+Scenario: Quality of an existing aged brie will never exceed a maximum quality
+	Given Aged Brie with maximum quality
+	When the day ends
+	Then the quality will remain at maximum quality
 	
 Scenario: Quality of an exiting item will never exceed 50 
 	Given Aged Brie with quality of 50 
@@ -31,23 +36,18 @@ Scenario: Quality of an exiting item will never exceed 50
 	Then the quality will be 50 
 	
 Scenario: Sulfurus never has to be sold 
-	Given Sulfuras, Hand of Ragnaros with sell in of 10 
+	Given Sulfuras, Hand of Ragnaros
 	When the day ends 
-	Then the sell in will be 10 
+	Then the sell in value will remain the same
 	
-Scenario: Quality of sulfurus will never change 
-	Given Sulfuras, Hand of Ragnaros with quality of 40 
+Scenario: Quality of sulfurus set to be greater than maximum will remain at that value
+	Given Sulfuras, Hand of Ragnaros with quality greater than maximum
 	When the day ends 
-	Then the quality will be 40 
-	
-Scenario: Quality of sulfurus can be greater than 50 
-	Given Sulfuras, Hand of Ragnaros with quality of 80 
-	When the day ends 
-	Then the quality will be 80 
+	Then the quality will not change
 	
 Scenario Outline:
 Backstage passes increase in quality on an excelerated schedule 
-	Given Backstage passes to a TAFKAL80ETC concert with sell in of <Initial SellIn> and quality of <Initial Quality> 
+	Given Backstage passes sell in of <Initial SellIn> and quality of <Initial Quality> 
 	When the day ends 
 	Then the quality will be <After Quality> 
 	
