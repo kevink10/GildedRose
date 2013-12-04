@@ -9,6 +9,9 @@ target/
 .classpath
 .project
 .settings/
+.class
 
 # Mac OS X
 .DS_Store
+
+bin/
